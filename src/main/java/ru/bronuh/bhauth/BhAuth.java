@@ -1,6 +1,10 @@
 package ru.bronuh.bhauth;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -12,7 +16,6 @@ public final class BhAuth extends JavaPlugin {
 
 	String pluginDir = getDataFolder().getPath();
 	Logger log = getLogger();
-
 	Config config = new Config();
 	AuthManager authManager = new AuthManager(pluginDir, log, config);
 	PluginContext pluginContext = new PluginContext(config, authManager, log, pluginDir, this);
@@ -33,6 +36,9 @@ public final class BhAuth extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		// Магия ничегонеделания
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.sendMessage(Component.text("Плагин перезагружен. Необходимо снова авторизоваться", TextColor.color(255,100,100)));
+		}
 		// TODO: Сделать че-нить
 	}
 

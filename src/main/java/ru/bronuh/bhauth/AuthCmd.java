@@ -72,4 +72,7 @@ public class AuthCmd implements CommandExecutor {
         }
         return false; //вернем "ложь" если команда выполнена неправильно (настраивается в plugin.yml)
     }
+
+
+
 }
