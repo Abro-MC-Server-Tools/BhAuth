@@ -1,0 +1,17 @@
+name: BhAuth
+version: '${project.version}'
+main: ru.bronuh.bhauth.BhAuth
+api-version: 1.19
+prefix: BhAuth
+load: STARTUP
+authors: [ Bronuh ]
+description: Реализация простой авторизации на сервере с небольшим количеством игроков
+commands:
+  login:
+    description: Авторизоваться на сервере
+    usage: /<command> [password]
+    aliases: [log]
+  register:
+    description: Зарегистрироваться на сервере.
+    usage: /<command> [password] [password?]
+    aliases: [reg]
