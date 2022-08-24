@@ -1,5 +1,5 @@
 name: BhAuth
-version: '${project.version}'
+version: '${version}'
 main: ru.bronuh.bhauth.BhAuth
 api-version: 1.19
 prefix: BhAuth
