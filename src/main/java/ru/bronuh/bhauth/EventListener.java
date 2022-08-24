@@ -14,6 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -47,6 +48,14 @@ public class EventListener implements Listener {
 		log = context.getLog();
 		authManager = context.getAuthManager();
 		bhAuth = context.getBhAuth();
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(bhAuth,()->{
+			for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+				if(!authManager.isLoggedIn(onlinePlayer.getName())){
+					onlinePlayer.setRemainingAir(onlinePlayer.getMaximumAir());
+				}
+			}
+		},0,40);
 	}
 
 
@@ -187,6 +196,20 @@ public class EventListener implements Listener {
 			}
 		}
 	}
+
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+	public void onPlayerDamageEvent(EntityDamageEvent event) {
+		if(event.getEntity() instanceof Player player){
+			String name = player.getName();
+
+			if(!authManager.isLoggedIn(name)&&config.loggedOutGodmode){
+				event.setCancelled(true);
+				//player.sendMessage(Component.text("Вы не можете взаимодействовать с объектами, пока не авторизуетесь", warnColor));
+			}
+		}
+	}
+
+
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
 	public void onPlayerShear(PlayerShearEntityEvent event) {
